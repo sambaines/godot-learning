@@ -42,7 +42,10 @@ func _physics_process(delta):
 	# These statements use SPEED to control the distance moved and how fast
 	velocity.x = direction.x * SPEED
 	velocity.z = direction.z * SPEED
+	
 	# This statement removes the GRAVITY value per frame to the player body
-	velocity.y -= GRAVITY * delta
+	# The built in method checks to only apply gravity when in the air
+	if not is_on_floor(): 
+		velocity.y -= GRAVITY * delta
 
 	move_and_slide()
