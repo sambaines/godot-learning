@@ -64,5 +64,5 @@ mesh = SubResource("CapsuleMesh_gv5m4")
 shape = SubResource("CapsuleShape3D_f3sb7")
 
 [node name="Camera" type="Camera3D" parent="Player" unique_id=1276754117]
-transform = Transform3D(1, 0, 0, 0, 0.57357645, 0.81915206, 0, -0.81915206, 0.57357645, 0, 8, 6)
+transform = Transform3D(0.70710677, -0.58621806, 0.39540908, 0, 0.5591929, 0.82903755, -0.70710677, -0.58621806, 0.39540908, 0, 8, 6)
 current = true
