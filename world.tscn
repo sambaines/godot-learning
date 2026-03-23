@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cswa2a3bvmbas"]
 
 [ext_resource type="Script" uid="uid://d35fagg1nig4f" path="res://player.gd" id="1_f3sb7"]
+[ext_resource type="Script" uid="uid://cdll3lrtcpt7m" path="res://portal.gd" id="2_fj7yv"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_gv5m4"]
 size = Vector2(20, 20)
@@ -25,6 +26,8 @@ albedo_color = Color(0.60059994, 0.70788664, 0.77, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_gv5m4"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f3sb7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tlwt5"]
 
 [node name="World" type="Node3D" unique_id=302644858]
 
@@ -53,7 +56,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.5, -3)
 mesh = SubResource("BoxMesh_gv5m4")
 surface_material_override/0 = SubResource("StandardMaterial3D_tlwt5")
 
-[node name="Player" type="CharacterBody3D" parent="." unique_id=1461479296]
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1461479296 groups=["Player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
 script = ExtResource("1_f3sb7")
 
@@ -66,3 +69,22 @@ shape = SubResource("CapsuleShape3D_f3sb7")
 [node name="Camera" type="Camera3D" parent="Player" unique_id=1276754117]
 transform = Transform3D(0.70710677, -0.58621806, 0.39540908, 0, 0.5591929, 0.82903755, -0.70710677, -0.58621806, 0.39540908, 0, 8, 6)
 current = true
+
+[node name="Portal" type="Area3D" parent="." unique_id=1448642143]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 9, 1, -9)
+script = ExtResource("2_fj7yv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Portal" unique_id=96139118]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("BoxShape3D_tlwt5")
+debug_color = Color(0.9804862, 0, 0.3832365, 0.41960785)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1320038739]
+
+[node name="Fade" type="ColorRect" parent="CanvasLayer" unique_id=112101406]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
