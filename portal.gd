@@ -7,8 +7,12 @@ func _ready():
 
 func _on_body_entered(body):
 	if body.is_in_group("Player"):
-		fade_out()
+		await fade_out()
+		GameState.entry_point = "south"
+		get_tree().change_scene_to_file("res://world2.tscn")
 
 func fade_out():
 	var tween = create_tween()                                                                                                                                                                     
 	tween.tween_property(fade, "color:a", 1.0, 0.8)
+	# Use await to ensure the tween for the fade finishes before the changing the scene
+	await tween.finished
