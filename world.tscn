@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d35fagg1nig4f" path="res://player.gd" id="1_f3sb7"]
 [ext_resource type="Script" uid="uid://cdll3lrtcpt7m" path="res://portal.gd" id="2_fj7yv"]
+[ext_resource type="Shader" uid="uid://dosbo5pyuekl3" path="res://portal.gdshader" id="3_tlwt5"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_gv5m4"]
 size = Vector2(20, 20)
@@ -28,6 +29,14 @@ albedo_color = Color(0.60059994, 0.70788664, 0.77, 1)
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f3sb7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tlwt5"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_aqk2v"]
+lightmap_size_hint = Vector2i(12, 12)
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_036b0"]
+render_priority = 0
+shader = ExtResource("3_tlwt5")
 
 [node name="World" type="Node3D" unique_id=302644858]
 
@@ -78,6 +87,11 @@ script = ExtResource("2_fj7yv")
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 shape = SubResource("BoxShape3D_tlwt5")
 debug_color = Color(0.9804862, 0, 0.3832365, 0.41960785)
+
+[node name="PortalMesh" type="MeshInstance3D" parent="Portal" unique_id=1704675420]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -0.9, 0)
+mesh = SubResource("QuadMesh_aqk2v")
+surface_material_override/0 = SubResource("ShaderMaterial_036b0")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1320038739]
 

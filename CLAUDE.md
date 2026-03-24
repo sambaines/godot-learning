@@ -24,15 +24,13 @@ This is NOT a real game. It IS a real project that grows over time.
 ## Chapter roadmap
 | # | Title | Status |
 |---|-------|--------|
-| 1 | Simple 3D world + isometric camera | In progress |
-| 2 | RO-style scene transitions (walk to edge/portal → fade → new scene → fade in → entry point) | Pending |
+| 1 | Simple 3D world + isometric camera | Complete |
+| 2 | RO-style scene transitions (walk to edge/portal → fade → new scene → fade in → entry point) | Complete |
 | 3+ | TBD | — |
 
 ## Next session — pick up here
-- Sam is experimenting with camera Y rotation (45° diagonal gives classic isometric feel)
-- Problem discovered: at Y=45°, WASD movement feels wrong because movement is in world space, not camera-relative
-- **Next lesson: Option B — camera-relative movement.** Script calculates forward/right from camera orientation so movement always matches the view regardless of angle. This is the correct approach.
-- Sam will settle on final camera values first, then we implement Option B.
+- Chapters 1 and 2 complete. Ready to plan Chapter 3.
+- Concepts available to build on: NPCs, combat, inventory, sound, saving/loading, more complex scene graphs
 
 ## Chapter 1 — Simple 3D world + isometric camera
 **Goal:** A 3D scene with ground, some reference geometry, a capsule player with WASD movement,
