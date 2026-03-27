@@ -15,6 +15,7 @@ var idle_timer = 0.0
 @onready var nav_agent = $NavigationAgent3D
 
 func _ready():
+	await get_tree().physics_frame
 	pick_new_destination()
 
 func _physics_process(delta):
