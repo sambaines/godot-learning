@@ -37,6 +37,10 @@ func _physics_process(delta):
 		State.WALKING:
 			var next_pos = nav_agent.get_next_path_position()
 			var dir = (next_pos - global_position).normalized()
+
+			var flat_dir = Vector3(dir.x, 0, dir.z).normalized()
+			if flat_dir.length() > 0.001:
+				rotation.y = lerp_angle(rotation.y, atan2(-flat_dir.x, -flat_dir.z), 5.0 * delta)
 			# next_pos - global_position gives you a vector pointing from the NPC toward that wyapoint - .normalized() makes it length 1 so speed is consistent
 			velocity.x = dir.x * SPEED
 			velocity.z = dir.z * SPEED

@@ -92,6 +92,13 @@ height = 0.1
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dwbse"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_036b0"]
+albedo_color = Color(0.7544279, 0.41194263, 0.519508, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dwbse"]
+material = SubResource("StandardMaterial3D_036b0")
+size = Vector3(0.3, 0.3, 0.5)
+
 [node name="World" type="Node3D" unique_id=302644858]
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=769566012]
@@ -199,3 +206,7 @@ mesh = SubResource("CapsuleMesh_036b0")
 shape = SubResource("CapsuleShape3D_dwbse")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="NPC" unique_id=25022358]
+
+[node name="Nose" type="MeshInstance3D" parent="NPC" unique_id=673189484]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+mesh = SubResource("BoxMesh_dwbse")
