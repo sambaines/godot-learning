@@ -4,8 +4,17 @@ const SPEED = 2.0
 const GRAVITY = 9.81
 
 # An enum is just a named set of constants - under the hood its the same as IDLE = 0 and WALKING = 1, but this is more readable
-enum State { IDLE, WALKING }
+enum State { IDLE, WALKING, TALKING }
 var state = State.IDLE
+
+var player_ref = null # holds a refernce to the player node when nearby
+var dialogue_index = 0 # tracks which line of dialogue we're on
+
+const DIALOGUE = [
+	"Hey there, travller.",
+	"Lovely weather for wandering, isn't it?",
+	"Safe travels."
+]
 
 var idle_timer = 0.0
 
@@ -17,11 +26,18 @@ var idle_timer = 0.0
 func _ready():
 	await get_tree().physics_frame
 	pick_new_destination()
+	$InteractionZone.body_entered.connect(_on_player_entered)
+	$InteractionZone.body_exited.connect(_on_player_exited)
 
 func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= GRAVITY * delta
 
+	if player_ref and Input.is_action_just_pressed("ui_accept"):
+		if state = State.TALKING:
+			advance_dialogue()
+		else:
+			start_dialogue()
 	# Match is GDScript's version of a switch statement - cleaner than a set of if/elif statements. Each State.IDLE: / State.WALKING: block only runs when state matches it
 	match state:
 		# This is the IDLE branch => stop moving, count down a timer, when it hits zero, pick a new destination
@@ -50,6 +66,16 @@ func _physics_process(delta):
 				state = State.IDLE
 				idle_timer = randf_range(1.0, 3.0)
 		
+		State.TALKING:
+			velocity.x = 0
+			velocity.z = 0
+			# face the player
+			var dir_to_player = (player_ref.global_position - global_position)
+			dir_to_player.y = 0
+			if dir_to_player.length() > 0.01:
+				var target_angle = atan2(-dir_to_player.x, -dir_to_player.z)
+				rotation.y = lerp_angle(rotation.y, target_angle, 5.0 * delta)
+		
 	move_and_slide()
 
 # This function picks a random point withing `wander-radius` units of the NPC's current position (X and Z only, no Y up) => Sets that as the nav agent's target
@@ -59,3 +85,14 @@ func pick_new_destination():
 
 	# On picking a new destination, flip state to WALKING
 	state = State.WALKING
+
+func _on_player_entered(body):
+	if body.name == "Player":
+		player_ref = body
+		# signal to UI: show the "Press E" prompt
+		# Wire in prompt later
+
+func _on_player_exited(body):
+	if body.name == "Player":
+		player_ref = null
+		end_dialogue()

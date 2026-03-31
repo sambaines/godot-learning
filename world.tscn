@@ -99,6 +99,9 @@ albedo_color = Color(0.7544279, 0.41194263, 0.519508, 1)
 material = SubResource("StandardMaterial3D_036b0")
 size = Vector3(0.3, 0.3, 0.5)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_aqk2v"]
+radius = 2.5
+
 [node name="World" type="Node3D" unique_id=302644858]
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=769566012]
@@ -210,3 +213,8 @@ shape = SubResource("CapsuleShape3D_dwbse")
 [node name="Nose" type="MeshInstance3D" parent="NPC" unique_id=673189484]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
 mesh = SubResource("BoxMesh_dwbse")
+
+[node name="InteractionZone" type="Area3D" parent="NPC" unique_id=1092204302]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NPC/InteractionZone" unique_id=824195912]
+shape = SubResource("SphereShape3D_aqk2v")
