@@ -21,6 +21,8 @@ var idle_timer = 0.0
 # The @export makes the variable available in the Godot inspector per NPC
 @export var wander_radius = 6.0
 
+@export var dialogue_ui: CanvasLayer
+
 @onready var nav_agent = $NavigationAgent3D
 
 func _ready():
@@ -33,8 +35,8 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= GRAVITY * delta
 
-	if player_ref and Input.is_action_just_pressed("ui_accept"):
-		if state = State.TALKING:
+	if player_ref and Input.is_action_just_pressed("interact"):
+		if state == State.TALKING:
 			advance_dialogue()
 		else:
 			start_dialogue()
@@ -88,11 +90,34 @@ func pick_new_destination():
 
 func _on_player_entered(body):
 	if body.name == "Player":
-		player_ref = body
-		# signal to UI: show the "Press E" prompt
-		# Wire in prompt later
+		player_ref = body # store a reference so other functions can access the player
+		dialogue_ui.show_prompt() # tell the UI to show the "Press E to talk"
 
 func _on_player_exited(body):
 	if body.name == "Player":
-		player_ref = null
+		player_ref = null # clear the reference, player is no longer nearby
+		dialogue_ui.hide_ui()
+		end_dialogue() # clean up any in progress conversation
+
+func start_dialogue():
+	dialogue_index = 0 # Always start from the first dialogue line
+	state = State.TALKING
+	dialogue_ui.show_dialogue(DIALOGUE[dialogue_index])
+	# DIALOGUE is an array - [dialogue_index] is the index operator, it fetches the item at that position
+	# DIALOGUE[0] = "Hey there, traveller." from the const above
+	# dialogue_index starts at 0
+
+func advance_dialogue():
+	dialogue_index += 1 # move dialogue to next line on button press
+	if dialogue_index >= DIALOGUE.size():
+		# if size() returns a number >= to total items in array
+		# then the conversation is over
 		end_dialogue()
+	else:
+		dialogue_ui.show_dialogue(DIALOGUE[dialogue_index]) # show next line
+
+func end_dialogue():
+	state = State.IDLE
+	dialogue_index = 0 # reset so next conversation starts from 0
+	dialogue_ui.hide_ui()
+	pick_new_destination() # NPC resumes wandering

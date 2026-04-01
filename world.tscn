@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://cdll3lrtcpt7m" path="res://portal.gd" id="2_fj7yv"]
 [ext_resource type="Shader" uid="uid://dosbo5pyuekl3" path="res://portal.gdshader" id="3_tlwt5"]
 [ext_resource type="Script" uid="uid://dvdm5wew3ot8m" path="res://npc.gd" id="4_aqk2v"]
+[ext_resource type="Script" uid="uid://drn2cxk3jntgj" path="res://dialogue_ui.gd" id="5_036b0"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_aqk2v"]
 vertices = PackedVector3Array(-4, 0.10000001, -4.75, -2.75, 0.10000001, -5, -2.75, 0.10000001, -9.5, -9.5, 0.10000001, -9.5, -9.5, 0.10000001, -3.75, -4, 0.10000001, -3.75, 1, 0.10000001, 1, 3, 0.10000001, 1.5, 3.25, 0.10000001, 1, 1, 0.10000001, -1, -1.75, 0.10000001, -3.25, -2.5, 0.10000001, -2.75, -1, 0.10000001, -0.75, -1.75, 0.10000001, -4.75, 5, 0.10000001, 1, 5.25, 0.10000001, 2, 9.5, 0.10000001, 2, 9.5, 0.10000001, -9.5, 3, 0.10000001, 2.75, -0.75, 0.10000001, 1.25, 2.75, 0.10000001, 9.5, -3.75, 0.10000001, -2.75, -9.5, 0.10000001, 9.5, 4.75, 0.10000001, 3.25, 9.5, 0.10000001, 9.5, 3.25, 0.10000001, 3.25)
@@ -88,7 +89,11 @@ material = SubResource("StandardMaterial3D_aqk2v")
 radius = 0.05
 height = 0.1
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pkg7o"]
+albedo_color = Color(1, 0.66999996, 0.66999996, 1)
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_036b0"]
+material = SubResource("StandardMaterial3D_pkg7o")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dwbse"]
 
@@ -101,6 +106,21 @@ size = Vector3(0.3, 0.3, 0.5)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_aqk2v"]
 radius = 2.5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_036b0"]
+bg_color = Color(0, 0.22216667, 0.31, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.33683336, 0.47, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.14509805)
+shadow_size = 16
+shadow_offset = Vector2(0, 4)
 
 [node name="World" type="Node3D" unique_id=302644858]
 
@@ -198,9 +218,10 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0)
 
-[node name="NPC" type="CharacterBody3D" parent="." unique_id=39144254 groups=["NPC"]]
+[node name="NPC" type="CharacterBody3D" parent="." unique_id=39144254 node_paths=PackedStringArray("dialogue_ui") groups=["NPC"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 0)
 script = ExtResource("4_aqk2v")
+dialogue_ui = NodePath("../Dialogue_UI")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NPC" unique_id=1169610433]
 mesh = SubResource("CapsuleMesh_036b0")
@@ -218,3 +239,38 @@ mesh = SubResource("BoxMesh_dwbse")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NPC/InteractionZone" unique_id=824195912]
 shape = SubResource("SphereShape3D_aqk2v")
+
+[node name="Dialogue_UI" type="CanvasLayer" parent="." unique_id=373504253]
+script = ExtResource("5_036b0")
+
+[node name="Panel" type="Panel" parent="Dialogue_UI" unique_id=1481813827]
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 200.0
+offset_top = -150.0
+offset_right = -200.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_036b0")
+
+[node name="MarginContainer" type="MarginContainer" parent="Dialogue_UI/Panel" unique_id=628889041]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 12
+
+[node name="Label" type="Label" parent="Dialogue_UI/Panel/MarginContainer" unique_id=886062957]
+custom_minimum_size = Vector2(200, 24)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+autowrap_mode = 2
