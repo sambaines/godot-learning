@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cgb45gl2i0evi" path="res://world2.gd" id="1_bkyvu"]
 [ext_resource type="Script" uid="uid://d35fagg1nig4f" path="res://player.gd" id="2_xljjp"]
+[ext_resource type="Script" uid="uid://d3iax1wco82g" path="res://flower_field.gd" id="3_xljjp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xdoud"]
 albedo_color = Color(0.41569337, 0.59305465, 0.33662975, 1)
@@ -55,3 +56,6 @@ color = Color(0, 0, 0, 1)
 
 [node name="south" type="Marker3D" parent="." unique_id=1194713990]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9)
+
+[node name="FlowerField" type="MultiMeshInstance3D" parent="." unique_id=1121507903]
+script = ExtResource("3_xljjp")
